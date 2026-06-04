@@ -41,15 +41,9 @@ jobs:
             # Executar os testes e2e
             - name: Executando os testes E2E
               run: yarn run e2e
-    
-    report:
-          name: Publicando os relatórios
-          runs-on: ubuntu-latest
-          
-          steps:
-          - uses: lohani-mohit/playwright-report-publisher@v2
-            with:
-                working-directory: playwright-report
-                merge-blob-reports: "true"
-                suite-name: "E2E Tests"
-                test-status: ${{ needs.test.result == 'success' && 'passed' || 'failed' }}
+
+            # Gerar os relatórios
+            - name: Publish Report
+              uses: lohani-mohit/playwright-report-publisher@v2
+              with:
+                test-status: ${{ steps.tests.outcome == 'success' && 'passed' || 'failed' }} 
