@@ -44,8 +44,11 @@ jobs:
     
     report:
           name: Publicando os relatórios
-          uses: lohani-mohit/playwright-report-publisher@v2
-          working-directory: playwright-report
-          merge-blob-reports: "true"
-          suite-name: "E2E Tests"
-          test-status: ${{ needs.test.result == 'success' && 'passed' || 'failed' }}
+
+          steps:
+          - uses: lohani-mohit/playwright-report-publisher@v2
+            with:
+                working-directory: playwright-report
+                merge-blob-reports: "true"
+                suite-name: "E2E Tests"
+                test-status: ${{ needs.test.result == 'success' && 'passed' || 'failed' }}
