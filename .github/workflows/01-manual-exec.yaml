@@ -44,7 +44,8 @@ jobs:
     
     report:
           name: Publicando os relatórios
-
+          runs-on: ubuntu-latest
+          
           steps:
           - uses: lohani-mohit/playwright-report-publisher@v2
             with:
