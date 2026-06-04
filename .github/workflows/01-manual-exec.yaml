@@ -21,7 +21,7 @@ jobs:
             # Clone do projeto
             - uses: actions/checkout@v4
 
-           # Verificando as dependências 
+            # Verificando as dependências 
             - uses: actions/dependency-review-action@v5
 
             # Instalação do node
@@ -46,8 +46,7 @@ jobs:
               run: yarn run e2e
 
             # Gerando os relatórios
-            - name: Publish Test Results
-              uses: EnricoMi/publish-unit-test-result-action@v2
+            - uses: EnricoMi/publish-unit-test-result-action@v2
                 if: (!cancelled())
                 with:
                   files: |
