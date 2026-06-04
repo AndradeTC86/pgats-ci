@@ -44,12 +44,3 @@ jobs:
             # Executar os testes e2e
             - name: Executando os testes E2E
               run: yarn run e2e
-
-            # Gerando os relatórios
-            - uses: EnricoMi/publish-unit-test-result-action@v2
-                if: (!cancelled())
-                with:
-                  files: |
-                    test-results/**/*.xml
-                    test-results/**/*.trx
-                    test-results/**/*.json
