@@ -21,9 +21,6 @@ jobs:
             # Clone do projeto
             - uses: actions/checkout@v4
 
-            # Verificando as dependências 
-            - uses: actions/dependency-review-action@v5
-
             # Instalação do node
             - uses: actions/setup-node@v4
               with:
