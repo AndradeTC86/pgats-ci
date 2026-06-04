@@ -46,4 +46,5 @@ jobs:
             - name: Publish Report
               uses: lohani-mohit/playwright-report-publisher@v2
               with:
+                working-directory: playwright-report
                 test-status: ${{ steps.tests.outcome == 'success' && 'passed' || 'failed' }} 
