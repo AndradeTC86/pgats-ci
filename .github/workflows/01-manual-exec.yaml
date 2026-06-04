@@ -41,3 +41,11 @@ jobs:
             # Executar os testes e2e
             - name: Executando os testes E2E
               run: yarn run e2e
+    
+    report:
+        - name: Publicando os relatórios
+          uses: lohani-mohit/playwright-report-publisher@v2
+          working-directory: playwright-report
+          merge-blob-reports: "true"
+          suite-name: "E2E Tests"
+          test-status: ${{ needs.test.result == 'success' && 'passed' || 'failed' }}
