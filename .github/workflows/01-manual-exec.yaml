@@ -15,6 +15,9 @@ jobs:
     e2e-tests:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
+        permissions:
+          contents: write  # Required for pushing to gh-pages branch
+          pages: write     # Optional: enables automatic GitHub Pages configuration via API
 
         # Passos do job
         steps:
@@ -41,3 +44,8 @@ jobs:
             # Executar os testes e2e
             - name: Executando os testes E2E
               run: yarn run e2e
+
+            # Geração do relatórios
+            - uses: PavanMudigonda/html-reporter-github-pages@v1.5.21
+              with:
+                test_results: playwright-report
