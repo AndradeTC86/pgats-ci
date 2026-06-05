@@ -16,8 +16,8 @@ jobs:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
         permissions:
-          contents: write  # Required for pushing to gh-pages branch
-          pages: write     # Optional: enables automatic GitHub Pages configuration via API
+            contents: write  # Required for pushing to gh-pages branch
+            pages: write     # Optional: enables automatic GitHub Pages configuration via API
 
         # Passos do job
         steps:
