@@ -16,8 +16,13 @@ jobs:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
         permissions:
-            contents: write  # Required for pushing to gh-pages branch
-            pages: write     # Optional: enables automatic GitHub Pages configuration via API
+          contents: read
+          pages: write
+          id-token: write
+
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.output.page.url }} 
 
         # Passos do job
         steps:
@@ -45,7 +50,15 @@ jobs:
             - name: Executando os testes E2E
               run: yarn run e2e
 
-            # Geração do relatórios
-            - uses: PavanMudigonda/html-reporter-github-pages@v1.5.21
+            # Publica o relatório do Playwright no GitHub Pages
+            - name: Configurando GitHub Pages
+              uses: actions/configure-pages@v4
+
+            - name: Enviando artefato para o Pages
+              uses: actions/upload-pages-artifact@v3
               with:
-                test_results: playwright-report
+                path: playwright-report
+
+            - name: Publicando no gitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
