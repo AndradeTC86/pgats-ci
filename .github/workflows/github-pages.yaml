@@ -57,7 +57,7 @@ jobs:
       - name: Enviando artefato para o Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: playwright-report
+          path: ./playwright-report
 
       - name: Publicando no gitHub Pages
         id: deployment
