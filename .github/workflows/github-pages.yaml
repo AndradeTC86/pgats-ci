@@ -9,6 +9,10 @@ name: 'GitHub Pages'
 on:
   workflow_dispatch:
 
+  push:
+    branches:
+      - main
+
 # Tarefas dentro da pipeline = jobs
 jobs:
   # Nome da tarefa (job)
