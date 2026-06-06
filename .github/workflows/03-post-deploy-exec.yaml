@@ -1,7 +1,7 @@
 # CI de Nível 03 - Disparo automático após a conclusão de outra pipeline
 
 # Nome da Pipeline
-name: 'Execução por Deploy'
+name: 'N3 - Execução por Deploy'
 
 # Gatilhos (Triggers) - Regras de Disparo
 # Gatilho por conclusão de outra pipeline = workflow_run

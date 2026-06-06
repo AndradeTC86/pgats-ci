@@ -1,7 +1,7 @@
 # CI de Nível 02 - Execução agendada
 
 # Nome da Pipeline
-name: 'Execução Agendada'
+name: 'N2 - Execução Agendada'
 
 # Gatilhos (Triggers) - Regras de Disparo
 # Gatilho agendado = schedule

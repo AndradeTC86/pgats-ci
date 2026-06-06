@@ -1,7 +1,7 @@
 # CI de Nível 04 - Pipeline integrada ao build do código
 
 # Nome da Pipeline
-name: 'Execução Integrada'
+name: 'N4 - Execução Integrada'
 
 # Gatilhos (Triggers) - Regras de Disparo
 # Gatilho manual = workflow_dispatch
