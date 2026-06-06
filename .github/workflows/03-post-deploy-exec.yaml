@@ -18,6 +18,9 @@ jobs:
     e2e-tests:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
+
+        if: ${{ github.evet.workflow_run.conclusion == 'success' }}
+
         permissions:
           contents: read
           pages: write
