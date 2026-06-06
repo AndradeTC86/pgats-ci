@@ -7,42 +7,42 @@ name: 'Execução por Deploy'
 # Gatilho por conclusão de outra pipeline = workflow_run
 
 on:
-    workflow_run:
-      workflows: ['Execução Manual']
-      types:
-        - completed
+  workflow_run:
+    workflows: ['Execução Manual']
+    types:
+      - completed
 
 # Tarefas dentro da pipeline = jobs
 jobs:
-    # Nome da tarefa (job)
-    e2e-tests:
-        # Maquina onde o job vai rodar
-        runs-on: ubuntu-latest
+  # Nome da tarefa (job)
+  e2e-tests:
+    # Maquina onde o job vai rodar
+    runs-on: ubuntu-latest
 
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-        # Passos do job
-        steps:
-            # Clone do projeto
-            - uses: actions/checkout@v4
+    # Passos do job
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
 
-            # Instalação do node
-            - uses: actions/setup-node@v4
-              with:
-                node-version: 24.x
+      # Instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
 
-            # Instalação do yarn
-            - name: Instalando yarn
-              run: npm install -g yarn
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
 
-            # Instalação das dependências
-            - name: Instalando dependências
-              run: yarn
+      # Instalação das dependências
+      - name: Instalando dependências
+        run: yarn
 
-            # Instalação dos browsers do Playwright
-            - name: Instalando browsers do Playwright
-              run: yarn playwright install
+      # Instalação dos browsers do Playwright
+      - name: Instalando browsers do Playwright
+        run: yarn playwright install
 
-            # Executar os testes e2e
-            - name: Executando os testes E2E
-              run: yarn run e2e
+      # Executar os testes e2e
+      - name: Executando os testes E2E
+        run: yarn run e2e

@@ -7,37 +7,37 @@ name: 'Execução Manual'
 # Gatilho manual = workflow_dispatch
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 # Tarefas dentro da pipeline = jobs
 jobs:
-    # Nome da tarefa (job)
-    e2e-tests:
-        # Maquina onde o job vai rodar
-        runs-on: ubuntu-latest       
-        
-        # Passos do job
-        steps:
-            # Clone do projeto
-            - uses: actions/checkout@v4
+  # Nome da tarefa (job)
+  e2e-tests:
+    # Maquina onde o job vai rodar
+    runs-on: ubuntu-latest
 
-            # Instalação do node
-            - uses: actions/setup-node@v4
-              with:
-                node-version: 24.x
+    # Passos do job
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
 
-            # Instalação do yarn
-            - name: Instalando yarn
-              run: npm install -g yarn
+      # Instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
 
-            # Instalação das dependências
-            - name: Instalando dependências
-              run: yarn
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
 
-            # Instalação dos browsers do Playwright
-            - name: Instalando browsers do Playwright
-              run: yarn playwright install
+      # Instalação das dependências
+      - name: Instalando dependências
+        run: yarn
 
-            # Executar os testes e2e
-            - name: Executando os testes E2E
-              run: yarn run e2e
+      # Instalação dos browsers do Playwright
+      - name: Instalando browsers do Playwright
+        run: yarn playwright install
+
+      # Executar os testes e2e
+      - name: Executando os testes E2E
+        run: yarn run e2e

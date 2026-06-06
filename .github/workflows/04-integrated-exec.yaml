@@ -7,120 +7,120 @@ name: 'Execução Integrada'
 # Gatilho manual = workflow_dispatch
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 # Tarefas dentro da pipeline = jobs
 jobs:
-    # Nome da tarefa (job)
-    inspection:
-        # Maquina onde o job vai rodar
-        runs-on: ubuntu-latest
+  # Nome da tarefa (job)
+  inspection:
+    # Maquina onde o job vai rodar
+    runs-on: ubuntu-latest
 
-        # Passos do job
-        steps:
-            # Clone do projeto
-            - uses: actions/checkout@v4
+    # Passos do job
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
 
-            # Instalação do node
-            - uses: actions/setup-node@v4
-              with:
-                node-version: latest
+      # Instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
 
-            # Instalação do yarn
-            - name: Instalando yarn
-              run: npm install -g yarn
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
 
-            # Instalação das dependências
-            - name: Instalando dependências
-              run: yarn
+      # Instalação das dependências
+      - name: Instalando dependências
+        run: yarn
 
-            # Inspeção do Código
-            - name: Inspecionando código
-              run: yarn lint
-    
-    unit:
-        runs-on: ubuntu-latest
-        needs: [inspection]
+      # Inspeção do Código
+      - name: Inspecionando código
+        run: yarn lint
 
-        steps:
-            # Clone do projeto
-            - uses: actions/checkout@v4
+  unit:
+    runs-on: ubuntu-latest
+    needs: [inspection]
 
-            # Instalação do node
-            - uses: actions/setup-node@v4
-              with:
-                node-version: latest
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
 
-            # Instalação do yarn
-            - name: Instalando yarn
-              run: npm install -g yarn
+      # Instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
 
-            # Instalação das dependências
-            - name: Instalando dependências
-              run: yarn
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
 
-            # Executar os testes unitários
-            - name: Executando os testes unitários
-              run: yarn run test
+      # Instalação das dependências
+      - name: Instalando dependências
+        run: yarn
 
-    mutation:
-        runs-on: ubuntu-latest
-        needs: [unit]
+      # Executar os testes unitários
+      - name: Executando os testes unitários
+        run: yarn run test
 
-        steps:
-            # Clone do projeto
-            - uses: actions/checkout@v4
+  mutation:
+    runs-on: ubuntu-latest
+    needs: [unit]
 
-            # Instalação do node
-            - uses: actions/setup-node@v4
-              with:
-                node-version: latest
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
 
-            # Instalação do yarn
-            - name: Instalando yarn
-              run: npm install -g yarn
+      # Instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
 
-            # Instalação das dependências
-            - name: Instalando dependências
-              run: yarn
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
 
-            # Executar os testes de mutação com Stryker
-            - name: Executando os testes de mutação
-              run: yarn run test:mutation
+      # Instalação das dependências
+      - name: Instalando dependências
+        run: yarn
 
-    e2e:
-        runs-on: ubuntu-latest
-        needs: [inspection]
+      # Executar os testes de mutação com Stryker
+      - name: Executando os testes de mutação
+        run: yarn run test:mutation
 
-        steps:
-            # Clone do projeto
-            - uses: actions/checkout@v4
+  e2e:
+    runs-on: ubuntu-latest
+    needs: [inspection]
 
-            # Instalação do node
-            - uses: actions/setup-node@v4
-              with:
-                node-version: latest
+    steps:
+      # Clone do projeto
+      - uses: actions/checkout@v4
 
-            # Instalação do yarn
-            - name: Instalando yarn
-              run: npm install -g yarn
+      # Instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
 
-            # Instalação das dependências
-            - name: Instalando dependências
-              run: yarn
+      # Instalação do yarn
+      - name: Instalando yarn
+        run: npm install -g yarn
 
-            # Instalação dos browsers do Playwright
-            - name: Instalando browsers do Playwright
-              run: yarn playwright install
+      # Instalação das dependências
+      - name: Instalando dependências
+        run: yarn
 
-            # Executar os testes e2e
-            - name: Executando os testes E2E
-              run: yarn run e2e
+      # Instalação dos browsers do Playwright
+      - name: Instalando browsers do Playwright
+        run: yarn playwright install
 
-    deploy:
-        runs-on: ubuntu-latest
-        needs: [unit, mutation, e2e]
+      # Executar os testes e2e
+      - name: Executando os testes E2E
+        run: yarn run e2e
 
-        steps:           
-            - name: Simulação de Deploy
-              run: echo 'Deploy sendo realizado...'
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [mutation, e2e]
+
+    steps:
+      - name: Simulação de Deploy
+        run: echo 'Deploy sendo realizado...'
