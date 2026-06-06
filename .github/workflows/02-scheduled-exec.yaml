@@ -1,0 +1,66 @@
+# CI de Nível 02 - Execução agendada
+
+# Nome da Pipeline
+name: 'Execução Agendada'
+
+# Gatilhos (Triggers) - Regras de Disparo
+
+on:
+    schedule:
+    # cronograma de execução
+    # 1 - minuto, 2 - hora, 3  - dia do mês, 4 - mês, 5 - dia da semana
+      - cron: '5 0 * * 6'
+
+# Tarefas dentro da pipeline = jobs
+jobs:
+    # Nome da tarefa (job)
+    e2e-tests:
+        # Maquina onde o job vai rodar
+        runs-on: ubuntu-latest
+        permissions:
+          contents: read
+          pages: write
+          id-token: write
+
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.output.page.url }} 
+
+        # Passos do job
+        steps:
+            # Clone do projeto
+            - uses: actions/checkout@v4
+
+            # Instalação do node
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 24.x
+
+            # Instalação do yarn
+            - name: Instalando yarn
+              run: npm install -g yarn
+
+            # Instalação das dependências
+            - name: Instalando dependências
+              run: yarn
+
+            # Instalação dos browsers do Playwright
+            - name: Instalando browsers do Playwright
+              run: yarn playwright install
+
+            # Executar os testes e2e
+            - name: Executando os testes E2E
+              run: yarn run e2e
+
+            # Publica o relatório do Playwright no GitHub Pages
+            - name: Configurando GitHub Pages
+              uses: actions/configure-pages@v4
+
+            - name: Enviando artefato para o Pages
+              uses: actions/upload-pages-artifact@v3
+              with:
+                path: playwright-report
+
+            - name: Publicando no gitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
