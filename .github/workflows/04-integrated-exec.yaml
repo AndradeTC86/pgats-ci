@@ -1,25 +1,18 @@
-# CI de Nível 02 - Execução agendada
+# CI de Nível 04 - Pipeline integrada ao build do código
 
 # Nome da Pipeline
-name: 'Execução Agendada'
+name: 'Execução Integrada'
 
 # Gatilhos (Triggers) - Regras de Disparo
-# Gatilho agendado = schedule
+# Gatilho manual = workflow_dispatch
 
 on:
-    schedule:
-    # cronograma de execução
-    # 1 - minuto, 2 - hora, 3  - dia do mês, 4 - mês, 5 - dia da semana
-      # Rodar a cada 30 minutos
-      - cron: '*/30 * * * *'
-
-      # Rodar toda sexta-feira à meia noite
-      - cron: '0 * * * 5'
+    workflow_dispatch:
 
 # Tarefas dentro da pipeline = jobs
 jobs:
     # Nome da tarefa (job)
-    e2e-tests:
+    inspection:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
         permissions:
@@ -39,7 +32,7 @@ jobs:
             # Instalação do node
             - uses: actions/setup-node@v4
               with:
-                node-version: 24.x
+                node-version: latest
 
             # Instalação do yarn
             - name: Instalando yarn
@@ -48,6 +41,18 @@ jobs:
             # Instalação das dependências
             - name: Instalando dependências
               run: yarn
+
+            # Inspeção do Código
+            - name: Inspecionando código
+              run: yarn lint
+
+            # Executar os testes unitários
+            - name: Executando os testes unitários
+              run: yarn run test
+
+            # Executar os testes de mutação com Stryker
+            - name: Executando os testes de mutação
+              run: yarn run test:mutation
 
             # Instalação dos browsers do Playwright
             - name: Instalando browsers do Playwright
