@@ -15,10 +15,6 @@ jobs:
     inspection:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
-        
-        environment:
-          name: github-pages
-          url: ${{ steps.deployment.output.page.url }} 
 
         # Passos do job
         steps:
@@ -116,24 +112,3 @@ jobs:
             # Executar os testes e2e
             - name: Executando os testes E2E
               run: yarn run e2e
-
-    pages:
-        runs-on: ubuntu-latest
-        permissions:
-          contents: read
-          pages: write
-          id-token: write
-        needs: [e2e]
-        
-            # Publica o relatório do Playwright no GitHub Pages
-            - name: Configurando GitHub Pages
-              uses: actions/configure-pages@v4
-
-            - name: Enviando artefato para o Pages
-              uses: actions/upload-pages-artifact@v3
-              with:
-                path: playwright-report
-
-            - name: Publicando no gitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
