@@ -1,20 +1,13 @@
-# CI de Nível 02 - Execução agendada
+# CI de Nível 01 - Disparo Manual através de clique
 
 # Nome da Pipeline
-name: 'Execução Agendada'
+name: 'GitHub Pages'
 
 # Gatilhos (Triggers) - Regras de Disparo
-# Gatilho agendado = schedule
+# Gatilho manual = workflow_dispatch
 
 on:
-    schedule:
-    # cronograma de execução
-    # 1 - minuto, 2 - hora, 3  - dia do mês, 4 - mês, 5 - dia da semana
-      # Rodar a cada 30 minutos
-      - cron: '*/30 * * * *'
-
-      # Rodar toda sexta-feira à meia noite
-      - cron: '0 * * * 5'
+    workflow_dispatch:
 
 # Tarefas dentro da pipeline = jobs
 jobs:
@@ -22,7 +15,15 @@ jobs:
     e2e-tests:
         # Maquina onde o job vai rodar
         runs-on: ubuntu-latest
-        
+        permissions:
+          contents: read
+          pages: write
+          id-token: write
+
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.output.page.url }} 
+
         # Passos do job
         steps:
             # Clone do projeto
@@ -48,3 +49,16 @@ jobs:
             # Executar os testes e2e
             - name: Executando os testes E2E
               run: yarn run e2e
+
+            # Publica o relatório do Playwright no GitHub Pages
+            - name: Configurando GitHub Pages
+              uses: actions/configure-pages@v4
+
+            - name: Enviando artefato para o Pages
+              uses: actions/upload-pages-artifact@v3
+              with:
+                path: playwright-report
+
+            - name: Publicando no gitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
